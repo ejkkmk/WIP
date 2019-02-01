@@ -364,7 +364,7 @@ namespace GeometricLayouts.Controllers
                 // The given row and column are outside our range(s) return an error status code
                 else
                 {
-                    coordinates.Status = -1;
+                    coordinates.Status = -2;
                     FileLogger.Instance.WriteLog(string.Format("Row and/or column values out of range.  Row={0} (Range: {1}-{2}), Column={3} (Range: {4}-{5})",
                         RowNum, _MinRow, _MaxRow, ColNum, _MinCol, _MaxCol));
                 }
