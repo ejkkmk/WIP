@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Geometric Layouts</title>
+</head>
+<body>
+
+    <div>
+        <h2>Get Geometric Coordinates given a row and column value</h2>
+        Enter the row:
+        <select id="RowId">
+            <option value="A" selected>A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="Z">Z</option>
+            <option value="AA">AA</option>
+            <option value="a">a</option>
+        </select>
+
+        &nbsp;&nbsp;
+
+        Enter the column:
+        <select id="ColId">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="15">15</option>
+            <option value="A">A</option>
+        </select>
+
+        &nbsp;&nbsp;&nbsp;
+
+        <input type="button" value="Get Coordinates" onclick="GetCoordinates();" />
+
+        <p><b>Results:</b>&nbsp;&nbsp;<label id="coordinates" /></p>
+
+    </div>
+
+    <br />
+    <br />
+    <hr />
+    <br />
+
+
+    <div>
+        <h2>Get Row and Column values using coordinates</h2>
+
+        <table>
+            <tr>
+                <td>
+                    <center><b>Point</b></center>
+                </td>
+                <td>
+                    <center><b>X</b></center>
+                </td>
+                <td>
+                    <center><b>Y</b></center>
+                </td>
+            </tr>
+            <tr>
+                <td>Point 1</td>
+                <td><input type="text" id="ptx1" /></td>
+                <td><input type="text" id="pty1" /></td>
+            </tr>
+            <tr>
+                <td>Point 2</td>
+                <td><input type="text" id="ptx2" /></td>
+                <td><input type="text" id="pty2" /></td>
+            </tr>
+            <tr>
+                <td>Point 3</td>
+                <td><input type="text" id="ptx3" /></td>
+                <td><input type="text" id="pty3" /></td>
+            </tr>
+        </table>
+
+        <input type="button" value="Get RowCol" onclick="GetRowCol();" />
+
+        <p><b>Results:</b>&nbsp;&nbsp;<label id="rowcol" /></p>
+    </div>
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script>
+        var uri = 'api/coordinates';
+
+        function GetCoordinates() {
+            var row = $('#RowId').val();
+            var col = $('#ColId').val();
+
+            $.getJSON(uri + '/GetCoordinatesRowCol?rowString=' + row + '&colString=' + col)
+                .done(function (data) {
+                    $('#coordinates').text('Status = ' + data.Status + '  Coordinates = (' + data.V1x + ', ' + data.V1y + ')   (' + data.V2x + ', ' + data.V2y + ')   (' + data.V3x + ', ' + data.V3y + ')');
+                })
+                .fail(function (jqXHR, textStatus, err) {
+                    $('#coordinates').text('Error: ' + err);
+                });
+        }
+
+        function GetRowCol() {
+            var ptx1 = $('#ptx1').val();
+            var pty1 = $('#pty1').val();
+            var ptx2 = $('#ptx2').val();
+            var pty2 = $('#pty2').val();
+            var ptx3 = $('#ptx3').val();
+            var pty3 = $('#pty3').val();
+
+            $.getJSON(uri + '/GetRowCol?ptx1=' + ptx1 + '&pty1=' + pty1 + '&ptx2=' + ptx2 + '&pty2=' + pty2 + '&ptx3=' + ptx3 + '&pty3=' + pty3)
+               .done(function (data) {
+                $('#rowcol').text('Status = ' + data.Status + '  Row = ' + data.Row + '   Column = ' + data.Col);
+            })
+                .fail(function (jqXHR, textStatus, err) {
+                    $('#rowcol').text('Error: ' + err);
+                });
+        }
+
+    </script>
+</body>
+</html>
